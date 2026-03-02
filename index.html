@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sulav Math API</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.container {
+    background: rgba(0,0,0,0.6);
+    padding: 30px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 0 30px rgba(0,255,255,0.35);
+}
+
+h1 {
+    text-align: center;
+    color: #00fff0;
+    margin-bottom: 10px;
+}
+
+.endpoint {
+    background: #111;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+    color: #00ff99;
+    margin-bottom: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: #00fff0;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #00cfc3;
+}
+
+.result {
+    margin-top: 20px;
+    text-align: center;
+    display: none;
+}
+
+.answer-title {
+    color: #ffd700;
+    font-size: 18px;
+}
+
+.answer-value {
+    font-size: 34px;
+    font-weight: bold;
+    color: #00ff99;
+    margin: 6px 0;
+}
+
+.dev { color: #00bfff; font-size: 13px; }
+.dm { color: #ff7f7f; font-size: 13px; }
+.channel { color: #00ffcc; font-size: 13px; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🧮 Sulav Math API</h1>
+
+    <div class="endpoint">
+        Endpoint Example:<br>
+        <b>/api/math?q=(10+5)×6</b>
+    </div>
+
+    <input id="expr" placeholder="Enter math e.g. 10×9, √16, 50%, 2^3">
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="resultBox">
+        <div class="answer-title">The Answer</div>
+        <div class="answer-value" id="answer">--</div>
+
+        <div class="dev">The developer is @sulav_don1</div>
+        <div class="dm">If any problem DM me</div>
+        <div class="channel">My main channel @sulav_don2</div>
+    </div>
+</div>
+
+<script>
+function calculate() {
+    const expr = document.getElementById("expr").value;
+    if (!expr) return;
+
+    fetch(`/api/math?q=${encodeURIComponent(expr)}`)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("resultBox").style.display = "block";
+            if (data.answer !== undefined) {
+                document.getElementById("answer").innerText = data.answer;
+            } else {
+                document.getElementById("answer").innerText = "Error";
+            }
+        })
+        .catch(() => {
+            document.getElementById("resultBox").style.display = "block";
+            document.getElementById("answer").innerText = "Error";
+        });
+}
+</script>
+
+</body>
+</html>
